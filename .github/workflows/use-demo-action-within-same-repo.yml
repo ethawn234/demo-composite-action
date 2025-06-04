@@ -8,10 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: foo
-        uses: ./.github/actions/use-demo-action-within-same-repo
+        uses: ./.github/actions/demo-composite-action-within-repo
         with:
           who-to-greet: 'Mona the Octocat'
       - run: echo random-number "$RANDOM_NUMBER"
         shell: bash
         env:
           RANDOM_NUMBER: ${{ steps.foo.outputs.random-number }}
+
