@@ -30,11 +30,11 @@ runs: # Required Configures the path to the composite action.
         GITHUB_ACTION_PATH: ${{ github.action_path }}
     
     - name: Make goodbye.sh executable
-      run: chmod +x goodbye.sh
+      run: chmod +x "${{ github.action_path }}/goodbye.sh"
       shell: bash
 
     - name: Run goodbye.sh
-      run: goodbye.sh
+      run: "${{ github.action_path }}/goodbye.sh"
       shell: bash
 
 # This file defines the who-to-greet input, maps the random generated number to the random-number output variable, adds the action's path to the runner system path (to locate the goodbye.sh script during execution), and runs the goodbye.sh script.
