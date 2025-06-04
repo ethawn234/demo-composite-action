@@ -1,0 +1,44 @@
+name: 'Hello World'
+description: 'Greet someone'
+inputs:
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs: # Required Configures the path to the composite action.
+  using: "composite" # Required You must set this value to 'composite'.
+  steps: # Required The steps that you plan to run in this action. These can be either run steps or uses steps.
+    - name: Set Greeting
+      run: echo "Hello $INPUT_WHO_TO_GREET."
+      shell: bash
+      env:
+        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+
+    - name: Random Number Generator
+      id: random-number-generator
+      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+    
+    # - name: Make goodbye.sh executable
+    #   run: chmod +x "${{ github.action_path }}/goodbye.sh"
+    #   shell: bash
+
+    - name: Run goodbye.sh
+      run: "${{ github.action_path }}/goodbye.sh"
+      shell: bash
+
+# This file defines the who-to-greet input, maps the random generated number to the random-number output variable, adds the action's path to the runner system path (to locate the goodbye.sh script during execution), and runs the goodbye.sh script.
+
+# For more information about managing outputs, see Metadata syntax for GitHub Actions. https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#runs-for-composite-actions
+
+# For more information about how to use github.action_path, see Accessing contextual information about workflow runs.
