@@ -29,9 +29,9 @@ runs: # Required Configures the path to the composite action.
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
     
-    # - name: Make goodbye.sh executable
-    #   run: chmod +x "${{ github.action_path }}/goodbye.sh"
-    #   shell: bash
+    - name: Make goodbye.sh executable
+      run: chmod +x "${{ github.action_path }}/goodbye.sh"
+      shell: bash
 
     - name: Run goodbye.sh
       run: "${{ github.action_path }}/goodbye.sh"
